@@ -1,0 +1,34 @@
+From dfa60afe49770efa97c8c8515aa3cb4ab4f285e0 Mon Sep 17 00:00:00 2001
+From: Andrew Wang <wang@apache.org>
+Date: Sun, 14 Sep 2014 23:48:24 -0700
+Subject: [PATCH 356/551] HDFS-7061. Add test to verify encryption zone creation after NameNode restart without saving namespace. Contributed by Stephen Chu.
+
+(cherry picked from commit fc741b5d78e7e006355e17b1b5839f502e37261b)
+---
+ .../apache/hadoop/hdfs/TestEncryptionZones.java    |   10 ++++++++++
+ 1 files changed, 10 insertions(+), 0 deletions(-)
+
+diff --git a/hadoop-hdfs-project/hadoop-hdfs/src/test/java/org/apache/hadoop/hdfs/TestEncryptionZones.java b/hadoop-hdfs-project/hadoop-hdfs/src/test/java/org/apache/hadoop/hdfs/TestEncryptionZones.java
+index 7d4606a..7486370 100644
+--- a/hadoop-hdfs-project/hadoop-hdfs/src/test/java/org/apache/hadoop/hdfs/TestEncryptionZones.java
++++ b/hadoop-hdfs-project/hadoop-hdfs/src/test/java/org/apache/hadoop/hdfs/TestEncryptionZones.java
+@@ -337,6 +337,16 @@ public Object run() throws Exception {
+     cluster.restartNameNode(true);
+     assertNumZones(numZones);
+     assertZonePresent(null, zone1.toString());
++
++    // Verify newly added ez is present after restarting the NameNode
++    // without persisting the namespace.
++    Path nonpersistZone = new Path("/nonpersistZone");
++    fsWrapper.mkdir(nonpersistZone, FsPermission.getDirDefault(), false);
++    dfsAdmin.createEncryptionZone(nonpersistZone, TEST_KEY);
++    numZones++;
++    cluster.restartNameNode(true);
++    assertNumZones(numZones);
++    assertZonePresent(null, nonpersistZone.toString());
+   }
+ 
+   /**
+-- 
+1.7.0.4
+

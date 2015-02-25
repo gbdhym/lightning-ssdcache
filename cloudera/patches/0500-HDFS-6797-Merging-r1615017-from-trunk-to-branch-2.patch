@@ -1,0 +1,27 @@
+From dd51047831902935554cbac5d3e6374cae5b170a Mon Sep 17 00:00:00 2001
+From: Arpit Agarwal <arp@apache.org>
+Date: Fri, 1 Aug 2014 01:15:04 +0000
+Subject: [PATCH 500/551] HDFS-6797: Merging r1615017 from trunk to branch-2.
+
+git-svn-id: https://svn.apache.org/repos/asf/hadoop/common/branches/branch-2@1615018 13f79535-47bb-0310-9956-ffa450edef68
+(cherry picked from commit 5be502add3dc84a36fc289bb34a098d7e853195e)
+---
+ .../server/datanode/BlockPoolSliceStorage.java     |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/hadoop-hdfs-project/hadoop-hdfs/src/main/java/org/apache/hadoop/hdfs/server/datanode/BlockPoolSliceStorage.java b/hadoop-hdfs-project/hadoop-hdfs/src/main/java/org/apache/hadoop/hdfs/server/datanode/BlockPoolSliceStorage.java
+index 3f6844a..bc2c297 100644
+--- a/hadoop-hdfs-project/hadoop-hdfs/src/main/java/org/apache/hadoop/hdfs/server/datanode/BlockPoolSliceStorage.java
++++ b/hadoop-hdfs-project/hadoop-hdfs/src/main/java/org/apache/hadoop/hdfs/server/datanode/BlockPoolSliceStorage.java
+@@ -348,7 +348,7 @@ void doUpgrade(DataNode datanode, StorageDirectory bpSd, NamespaceInfo nsInfo)
+     }
+     LOG.info("Upgrading block pool storage directory " + bpSd.getRoot()
+         + ".\n   old LV = " + this.getLayoutVersion() + "; old CTime = "
+-        + this.getCTime() + ".\n   new LV = " + nsInfo.getLayoutVersion()
++        + this.getCTime() + ".\n   new LV = " + HdfsConstants.DATANODE_LAYOUT_VERSION
+         + "; new CTime = " + nsInfo.getCTime());
+     // get <SD>/previous directory
+     String dnRoot = getDataNodeStorageRoot(bpSd.getRoot().getCanonicalPath());
+-- 
+1.7.0.4
+

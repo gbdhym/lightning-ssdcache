@@ -1,0 +1,42 @@
+From 30867b27c63fb6ac749c11574359b9d840b1ecf1 Mon Sep 17 00:00:00 2001
+From: Andrew Wang <wang@apache.org>
+Date: Tue, 16 Sep 2014 17:02:06 -0700
+Subject: [PATCH 394/551] HDFS-6789. TestDFSClientFailover.testFileContextDoesntDnsResolveLogicalURI and TestDFSClientFailover.testDoesntDnsResolveLogicalURI failing on jdk7. Contributed by Akira Ajisaka.
+
+(cherry picked from commit a044407b5c3a2914a055812cb570218f69edae9b)
+(cherry picked from commit fcd181bde19f4b690880b60da6438e6a2bab4bdc)
+
+Conflicts:
+	hadoop-hdfs-project/hadoop-hdfs/CHANGES.txt
+---
+ .../apache/hadoop/hdfs/TestDFSClientFailover.java  |    5 ++---
+ 1 files changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/hadoop-hdfs-project/hadoop-hdfs/src/test/java/org/apache/hadoop/hdfs/TestDFSClientFailover.java b/hadoop-hdfs-project/hadoop-hdfs/src/test/java/org/apache/hadoop/hdfs/TestDFSClientFailover.java
+index d2a03d6..c5db540 100644
+--- a/hadoop-hdfs-project/hadoop-hdfs/src/test/java/org/apache/hadoop/hdfs/TestDFSClientFailover.java
++++ b/hadoop-hdfs-project/hadoop-hdfs/src/test/java/org/apache/hadoop/hdfs/TestDFSClientFailover.java
+@@ -251,9 +251,8 @@ private NameService spyOnNameService() {
+    */
+   @Test
+   public void testDoesntDnsResolveLogicalURI() throws Exception {
+-    NameService spyNS = spyOnNameService();
+-    
+     FileSystem fs = HATestUtil.configureFailoverFs(cluster, conf);
++    NameService spyNS = spyOnNameService();
+     String logicalHost = fs.getUri().getHost();
+     Path qualifiedRoot = fs.makeQualified(new Path("/"));
+     
+@@ -270,8 +269,8 @@ public void testDoesntDnsResolveLogicalURI() throws Exception {
+    */
+   @Test
+   public void testFileContextDoesntDnsResolveLogicalURI() throws Exception {
+-    NameService spyNS = spyOnNameService();
+     FileSystem fs = HATestUtil.configureFailoverFs(cluster, conf);
++    NameService spyNS = spyOnNameService();
+     String logicalHost = fs.getUri().getHost();
+     Configuration haClientConf = fs.getConf();
+     
+-- 
+1.7.0.4
+
